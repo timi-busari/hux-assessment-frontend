@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { FormEvent, useReducer } from "react";
+import { FormEvent, useReducer, useEffect } from "react";
 
-// define the state and action types
+// Define the state and action types
 interface AuthState {
   username: string;
   password: string;
@@ -19,7 +19,7 @@ type AuthAction =
   | { type: "SET_MESSAGE"; payload: string | null }
   | { type: "SET_ERROR"; payload: string | null };
 
-//  the reducer function
+// The reducer function
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
     case "SET_USERNAME":
@@ -39,21 +39,21 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-const AuthForm = ({ mode }: { mode?: "login" | "signup" }) => {
-  // initial states
+const AuthForm = ({ mode = "login" }: { mode?: "login" | "signup" }) => {
+  // Initial states
   const initialState: AuthState = {
     username: "",
     password: "",
-    isLogin: mode === "login" ? true : false,
+    isLogin: mode === "login",
     isLoading: false,
     message: null,
     error: null,
   };
-  console.log(mode, "mode");
-  const [state, dispatch] = useReducer(authReducer, initialState);
 
+  const [state, dispatch] = useReducer(authReducer, initialState);
   const router = useRouter();
 
+  // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch({ type: "SET_LOADING", payload: true });
@@ -92,6 +92,13 @@ const AuthForm = ({ mode }: { mode?: "login" | "signup" }) => {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
+
+  // Effect to update state when mode changes
+  useEffect(() => {
+    dispatch({ type: "SET_USERNAME", payload: "" });
+    dispatch({ type: "SET_PASSWORD", payload: "" });
+    dispatch({ type: "TOGGLE_LOGIN" });
+  }, [mode]);
 
   return (
     <div>
