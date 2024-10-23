@@ -79,10 +79,13 @@ const AuthForm = ({ mode = "login" }: { mode?: "login" | "signup" }) => {
 
       const result = await response.json();
 
-      if (response.ok) {
+      if (response.ok && state.isLogin) {
         localStorage.setItem("token", result.token);
         dispatch({ type: "SET_MESSAGE", payload: "Success! Redirecting..." });
         setTimeout(() => router.push("/contacts"), 2000);
+      } else if (!state.isLogin && response.ok) {
+        dispatch({ type: "SET_MESSAGE", payload: "Success! Please Login..." });
+        setTimeout(() => router.push("/auth?mode=login"), 2000);
       } else {
         throw new Error(result.message || "Something went wrong.");
       }

@@ -16,17 +16,17 @@ const ContactList = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}` || '',
+            Authorization: `Bearer ${localStorage.getItem("token")}` || "",
           },
         });
 
+        const data = await response.json();
         if (!response.ok) {
-          const errorData = await response.json(); // Capture error details from the response
-          setError(errorData.message || "Failed to fetch contacts");
+          setError(data.message || "Failed to fetch contacts");
+          return; // exit early if there's an error
         }
 
-        const data = await response.json();
-        setContacts(data);
+        setContacts(data); // only set contacts if the response was ok
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -56,7 +56,6 @@ const ContactList = () => {
         <ContactCard key={contact._id} {...contact} />
       ))}
     </div>
-    
   );
 };
 
