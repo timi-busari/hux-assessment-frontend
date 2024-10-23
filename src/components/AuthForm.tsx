@@ -39,7 +39,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-const AuthForm = ({ mode }: { mode?: "login" | "register" }) => {
+const AuthForm = ({ mode }: { mode?: "login" | "signup" }) => {
   // initial states
   const initialState: AuthState = {
     username: "",

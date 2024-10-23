@@ -19,7 +19,7 @@ const AuthPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <h2 className="text-3xl font-bold mb-6 text-black" >Welcome Back!</h2>
-      <AuthForm mode={mode as "login" | "register"} />
+      <AuthForm mode={mode as "login" | "signup"} />
     </div>
   );
 };
