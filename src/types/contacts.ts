@@ -1,14 +1,20 @@
 export interface Contact {
-  id: number;
+  _id: string;
   firstName: string;
   lastName: string;
-  // email: string;
   phoneNumber: string;
-  // address: string;
-  // notes: string;
+
 }
 
 export interface ContactListProps {
     contacts: Contact[];
+  }
+
+  export interface ContactFormProps {
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    contactId?: string;
+    onSubmit: (contact: Contact) => void;
   }
 
